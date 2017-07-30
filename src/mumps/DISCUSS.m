@@ -1,6 +1,7 @@
 DISCUSS
  S DF="MON DD YEAR 12:60AM"
  I '$D(^DISCUSS("CONF","ID")) S ^DISCUSS("CONF","ID")=1
+ I '$D(^DISCUSS("CONF","TID")) S ^DISCUSS("CONF","TID")=1
  S USER="guest",PAR="",PARL=0,BOARD="NONE",MSGID=^DISCUSS("CONF","ID")-1
  D SLANG($P($P($ZTRNLNM("LANG"),".",1),"_",1))
  D INIT
@@ -20,8 +21,8 @@ DEFMENUS
  S LA("list")="LIST^DISCUSS:"_$$MSG(31)
  S LA("read")="READ^DISCUSS:"_$$MSG(33)
  S LA("reply")="REPLY^DISCUSS:"_$$MSG(35)
- S LA("who")="WHO^DISCUSS:List currently online users"
- S LA("history")="HISTORY^DISCUSS:Show my history"
+ S LA("who")="WHO^DISCUSS:"_$$MSG(41)
+ S LA("history")="HISTORY^DISCUSS:"_$$MSG(42)
  Q
 SLANG(L) S LANG=L D DEFMENUS I USER'="guest"  D USERMNU
  I USER="guest"  D GUESTMNU 
@@ -42,9 +43,9 @@ LASTACT(U) I $D(^USERS(U,"HISTORY")) S A=^USERS(U,"HISTORY") W $ZD(A,DF) Q
 LOGIN N U,P I PARL>1 S U=PAR(2)
  I PARL=1 W $$MSG(4),"  " R U 
  W !,$$MSG(5),"  " U $P:NOECHO R P U $P:ECHO W ! I $G(^USERS(U,"PW"))'=P W $$MSG(13),! Q
- S USER=U,^SESS($J)=USER,^SESS($J,"START")=$H D SLANG($G(^USERS(U,"LANG"),"en")) W $$MSG(20)_", ",^USERS(USER,"NAME"),"!",!
+ S USER=U,^SESS($J)=USER,^SESS($J,"START")=$H,BOARD=$G(^USERS(USER,"LASTBOARD"),"NONE") D SLANG($G(^USERS(U,"LANG"),"en")) W $$MSG(20)_", ",^USERS(USER,"NAME"),"!",!
  D DEFMENUS K ACT M ACT=LA Q
-EXIT K ^SESS($J),^USERS(USER,"BOARD") W $$MSG(21),!,!,! H
+EXIT S ^USERS(USER,"LASTBOARD")=BOARD K ^SESS($J),^USERS(USER,"BOARD") W $$MSG(21),!,!,! H
 INV Q
 NEWACCT N U,P,NAM W $$MSG(22)," " R U W !,$$MSG(23)," " U $P:NOECHO R P U $P:ECHO W !,$$MSG(24)," " R NAM 
  D CRUSER(U,P,NAM) Q
@@ -71,7 +72,28 @@ NEW I PARL=1 W $$MSG(36),! Q
  I (PAR(2)'="message")&(PAR(2)'="board") W $$MSG(36),! Q
  I PAR(2)="message" D NMESG Q
  I PAR(2)="board" D NBOARD Q
-NMESG Q
+;; ^MESG("M",board,mesg id,"SUBJECT")
+;;                        ,"USER")=USER
+;;                        ,"TIME")=horolog
+;;			  ,"THREAD")=thread id
+;; ^MESG("T",board,thread id,mesg id)=""
+NMESG N S,T,I,H S H=$H I BOARD="NONE" W $$MSG(48),! Q
+ W $$MSG(39)," " R S W !
+ S:'$D(^DISCUSS("BOARDS",BOARD,"ID")) ^DISCUSS("BOARDS",BOARD,"ID")=0
+ S:'$D(^DISCUSS("BOARDS",BOARD,"TID")) ^DISCUSS("BOARDS",BOARD,"TID")=0
+ S I=$I(^DISCUSS("BOARDS",BOARD,"ID")),T=$I(^DISCUSS("BOARDS",BOARD,"TID"))
+ S POSTFILE="/home/discuss/DISCUSS/boards/"_BOARD_"/posts/"_I_".DMS" 
+ ZSYSTEM "cp /home/discuss/DISCUSS/templates/MESSAGE.TPL "_POSTFILE
+ ZSYSTEM "rnano "_POSTFILE
+ TSTART
+ S ^MESG("M",BOARD,I,"SUBJECT")=S
+ S ^("USER")=USER
+ S ^("TIME")=H
+ S ^("THREAD")=T
+ S ^MESG("T",BOARD,T,I)=""
+ S ^MESG("I",BOARD,I,T)=""
+ TCOMMIT  
+ Q
 NBOARD N NB,SC W $$MSG(38)," " R NB W !,$$MSG(40)," " U $P:CONV R SC#8 U $P:NOCONV W ! S:'$D(^DISCUSS("BOARDS",SC)) ^DISCUSS("BOARDS",SC,"NAME")=NB,^("MOD")=USER 
  ZSYSTEM "mkdir -p /home/discuss/DISCUSS/boards/"_SC_"/posts > /dev/null 2>&1" 
  ZSYSTEM "cp /home/discuss/DISCUSS/templates/BOARDWLC.DTP /home/discuss/DISCUSS/boards/"_SC_"/.message"
@@ -82,7 +104,23 @@ LIST I PARL=1 W $$MSG(37),! Q
  I (PAR(2)'="message")&(PAR(2)'="board") W $$MSG(37),! Q
  I PAR(2)="message" D LMESG Q
  I PAR(2)="board" D LBOARD Q 
-LMESG
+;; ^MESG("M",board,mesg id,"SUBJECT")
+;;                        ,"USER")=USER
+;;                        ,"TIME")=horolog
+;;			  ,"THREAD")=thread id
+;; ^MESG("T",board,thread id,mesg id)=""
+;; AUG 24 2017 01:00AM
+LMESG N ID,WC S ID="",WC=0 I BOARD="NONE" W $$MSG(49),! Q
+ W "ID",?12,"DATE",?35,"USER",?45,"SUBJECT",!
+ W "--",?12,"----",?35,"----",?45,"-------",!
+ N S,U,H,R
+ F  S ID=$O(^MESG("M",BOARD,ID)) Q:ID=""  D
+ . S S=^MESG("M",BOARD,ID,"SUBJECT")
+ . S U=^MESG("M",BOARD,ID,"USER")
+ . S H=$ZD(^MESG("M",BOARD,ID,"TIME"),DF)
+ . W ID,?12,H,?35,U,?45,S,!
+ . I WC>23 S WC=0 W $$MSG(50)," " R R#1 Q:$$UCASE(R)="Q"
+ Q     
 LBOARD W $J("ID",15),$J("MODERATOR",15),$J("BOARD NAME",60),! S SC="" F  S SC=$O(^DISCUSS("BOARDS",SC)) Q:SC=""  S NB=^DISCUSS("BOARDS",SC,"NAME"),MOD=^("MOD") W $J(SC,15),$J(MOD,15),$J(NB,60),!
 READ Q
 REPLY Q
@@ -95,15 +133,15 @@ GO
  . I B[TB S PROP(B,"NAME")=^DISCUSS("BOARDS",B,"NAME")
  . I $$UCASE(^DISCUSS("BOARDS",B,"NAME"))[TB S PROP(B,"NAME")=^DISCUSS("BOARDS",B,"NAME") 
  S PROP=PROP-1,B=""
- I PROP=1 S B=$O(PROP(B)),BOARD=B W "I assume you meant ",B," (",PROP(B,"NAME"),")",! D WELCOME(B) Q
- I PROP<1 W "No board matches that shortcut",! Q
+ I PROP=1 S B=$O(PROP(B)),BOARD=B W $$MSG(43)," ",B," (",PROP(B,"NAME"),")",! D WELCOME(B) Q
+ I PROP<1 W $$MSG(44),! Q
  S B=""
- W "Did you mean:",!
+ W $$MSG(45),!
  F  S B=$O(PROP(B)) Q:B=""  D
- . W " ",B,":  ",?15,PROP(B,"NAME")," (command: 'go ",$$LCASE(B),"')",!
+ . W " ",B,":  ",?15,PROP(B,"NAME")," (",$$MSG(46),": 'go ",$$LCASE(B),"')",!
  W ! Q
-WELCOME(B) W "Changed to board '",^DISCUSS("BOARDS",B,"NAME"),"'",! 
- S ^USERS(USER,"BOARD")=B
+WELCOME(B) W $$MSG(47)," '",^DISCUSS("BOARDS",B,"NAME"),"'",! S ^USERS(USER,"BOARD")=B
  ZSYSTEM "cat /home/discuss/DISCUSS/boards/"_B_"/.message 2>/dev/null" Q
+WHO Q
 UCASE(I) Q $TR(I,"abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 LCASE(I) Q $TR(I,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")

@@ -21,7 +21,7 @@ MSGSen
 ;;Create a new board
 ;;Type 'login' to access your account, 'new' to create new account, or '?' for a list of commands.
 ;;Welcome to DISCUSS
-;;Goodbye!
+;;Goodbye! Now leaving DISCUSS.
 ;;Username:
 ;;Password:
 ;;Full Name:
@@ -41,6 +41,16 @@ MSGSen
 ;;Board topic?
 ;;Message subject?
 ;;Board shortcut?
+;;List users currently online
+;;Show my command history
+;;I assume you meant
+;;No board matches that shortcut
+;;Did you mean:
+;;command
+;;Changed to board
+;;Must select a board to post a message (use 'list board' and 'go <board>')
+;;Must select a board in order to list messages (use 'list board' and 'go <board>')
+;;Press 'Q' to quit; 'N' for next page: 
 MSGSit
 ;;DISCUSS v0.01
 ;; Copyright (C) 2017 John P. Willis
@@ -56,6 +66,28 @@ MSGSit
 ;;Errore: il conto esiste gia
 ;;Errore: nome utente non valido
 ;;Errore: non e in grado di acquisire il blocco del database
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
 ;;
 ;;
 ;;
@@ -99,6 +131,22 @@ MSGSsp
 ;;Mantener el idioma actual
 ;;Seleccion
 ;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
 MSGSfr
 ;;DISCUSS v0.01
 ;; Copyright (C) 2017 John P. Willis
@@ -115,6 +163,28 @@ MSGSfr
 ;;Erreur: le compte existe deja
 ;;Erreur: nom de l'uitilsateur invalide
 ;;Erreur: no pouvait pas acquerir un verrou de base de donnees
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
 ;;
 ;;
 ;;
