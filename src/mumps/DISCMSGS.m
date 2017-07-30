@@ -51,6 +51,10 @@ MSGSen
 ;;Must select a board to post a message (use 'list board' and 'go <board>')
 ;;Must select a board in order to list messages (use 'list board' and 'go <board>')
 ;;Press 'Q' to quit; 'N' for next page: 
+;;Must supply a valid message ID
+;;Subject:
+;;Author:
+;;Press 'R' to reply; 'Q' to quit:
 MSGSit
 ;;DISCUSS v0.01
 ;; Copyright (C) 2017 John P. Willis

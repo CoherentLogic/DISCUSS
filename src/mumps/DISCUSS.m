@@ -94,6 +94,12 @@ NMESG N S,T,I,H S H=$H I BOARD="NONE" W $$MSG(48),! Q
  S ^MESG("I",BOARD,I,T)=""
  TCOMMIT  
  Q
+REPLY I (PARL<2)!('$D(^MESG("M",BOARD,$G(PAR(2))))) W $$MSG(51),! Q
+ S OI=PAR(2) M OM=^MESG("M",BOARD,OI)
+ K M S H=$H,M("USER")=USER,M("TIME")=,M("SUBJECT")="Re: "_OM("SUBJECT"),M("THREAD")=OM("THREAD"),I=$I(^DISCUSS("BOARDS",BOARD,"ID"))
+ S OPF="/home/discuss/DISCUSS/boards/"_BOARD_"/posts/"_OI_".DPF"
+ S NPF="/home/discuss/DISCUSS/boards/"_BOARD_"/posts/"_I_".DPF"
+ ZSYSTEM
 NBOARD N NB,SC W $$MSG(38)," " R NB W !,$$MSG(40)," " U $P:CONV R SC#8 U $P:NOCONV W ! S:'$D(^DISCUSS("BOARDS",SC)) ^DISCUSS("BOARDS",SC,"NAME")=NB,^("MOD")=USER 
  ZSYSTEM "mkdir -p /home/discuss/DISCUSS/boards/"_SC_"/posts > /dev/null 2>&1" 
  ZSYSTEM "cp /home/discuss/DISCUSS/templates/BOARDWLC.DTP /home/discuss/DISCUSS/boards/"_SC_"/.message"
@@ -122,8 +128,11 @@ LMESG N ID,WC S ID="",WC=0 I BOARD="NONE" W $$MSG(49),! Q
  . I WC>23 S WC=0 W $$MSG(50)," " R R#1 Q:$$UCASE(R)="Q"
  Q     
 LBOARD W $J("ID",15),$J("MODERATOR",15),$J("BOARD NAME",60),! S SC="" F  S SC=$O(^DISCUSS("BOARDS",SC)) Q:SC=""  S NB=^DISCUSS("BOARDS",SC,"NAME"),MOD=^("MOD") W $J(SC,15),$J(MOD,15),$J(NB,60),!
-READ Q
-REPLY Q
+READ I (PARL<2)!('$D(^MESG("M",BOARD,$G(PAR(2))))) W $$MSG(51),! Q
+ S I=PAR(2) M M=^MESG("M",BOARD,I) W $$MSG(52),?12,M("SUBJECT"),!,$$MSG(53),?12,M("USER"),!
+ ZSYSTEM "cat /home/discuss/DISCUSS/boards/"_BOARD_"/posts/"_I_".DMS"
+ W $$MSG(54)," " R R#1 W ! I $$UCASE(R)="R" S PAR(2)=I D REPLY Q
+ Q
 GO 
  N TB S TB=$$UCASE(PAR(2)) 
  I $D(^DISCUSS("BOARDS",TB)) S BOARD=TB D WELCOME(TB) Q
