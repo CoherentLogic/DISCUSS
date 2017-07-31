@@ -4,8 +4,8 @@ MSGSen
 ;;DISCUSS v0.01
 ;; Copyright (C) 2017 John P. Willis
 ;; All Rights Reserved.
-;; Please enter your username: 
-;; Please enter your password: 
+;;Please enter your username: 
+;;Please enter your password: 
 ;;Discussion groups:
 ;;Login to existing account
 ;;Create a new account
@@ -31,15 +31,15 @@ MSGSen
 ;;belongs to
 ;;Keep current language
 ;;Selection
-;;List messages or boards ('list message' or 'list board')
-;;New message or board ('new message' or 'new board')
-;;Read a message
-;;Next message ID is
-;;Reply to message ID
-;;Must type 'new message' or 'new board'
-;;Must type 'list message' or 'list board'
+;;List posts or boards ('list post' or 'list board')
+;;New post or board ('new post' or 'new board')
+;;Read a post
+;;Next post ID is
+;;Reply to post ID
+;;Must type 'new post' or 'new board'
+;;Must type 'list post' or 'list board'
 ;;Board topic?
-;;Message subject?
+;;Post subject?
 ;;Board shortcut?
 ;;List users currently online
 ;;Show my command history
@@ -48,13 +48,33 @@ MSGSen
 ;;Did you mean:
 ;;command
 ;;Changed to board
-;;Must select a board to post a message (use 'list board' and 'go <board>')
-;;Must select a board in order to list messages (use 'list board' and 'go <board>')
+;;Must select a board to post a post (use 'list board' and 'go <board>')
+;;Must select a board in order to list posts (use 'list board' and 'go <board>')
 ;;Press 'Q' to quit; 'N' for next page: 
-;;Must supply a valid message ID
+;;Must supply a valid post ID
 ;;Subject:
 ;;Author:
 ;;Press 'R' to reply; 'Q' to quit:
+;;Require moderator approval for new posts? (Y/N)
+;;Enforce moderator approval for new posts on current board (you must be the moderator to do this) 
+;;Unenforce moderator approval for new posts on current board (you must be the moderator to do this)
+;;Process posts awaiting moderation
+;;Delete post
+;;Must select a board to enforce moderation (use 'list board' and 'go <board>')
+;;Must select a board to unenforce moderation (use 'list board' and 'go <board>')
+;;You must be the board moderator to do this.
+;;Assign moderator privilege on current board to another user
+;;You must supply a valid user account
+;;Must select a board to assign moderator privileges (use 'list board' and 'go <board>')
+;;Must select a board to process posts awaiting moderation (use 'list board' and 'go <board>')
+;;This board does not enforce moderation. Nothing to process.
+;;Do you A)pprove, R)eject, or P)ostpone this post?
+;;Post approved.
+;;Post rejected.
+;;Post postponed.
+;;moderator approval required for each post
+;;Your post has been submitted to the board moderator for approval.
+;;Write a private message to another user
 MSGSit
 ;;DISCUSS v0.01
 ;; Copyright (C) 2017 John P. Willis
