@@ -75,6 +75,8 @@ MSGSen
 ;;moderator approval required for each post
 ;;Your post has been submitted to the board moderator for approval.
 ;;Write a private message to another user
+;;Must be the post author or board moderator to delete a post.
+;;Post deleted.
 MSGSit
 ;;DISCUSS v0.01
 ;; Copyright (C) 2017 John P. Willis
@@ -90,6 +92,35 @@ MSGSit
 ;;Errore: il conto esiste gia
 ;;Errore: nome utente non valido
 ;;Errore: non e in grado di acquisire il blocco del database
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
 ;;
 ;;
 ;;
@@ -154,23 +185,52 @@ MSGSsp
 ;;pertenece a
 ;;Mantener el idioma actual
 ;;Seleccion
-;;
-;;
-;;
-;;
-;;
-;;
-;;
-;;
-;;
-;;
-;;
-;;
-;;
-;;
-;;
-;;
-;;
+;;Lista de publicaciones o foros ('list post' o 'list board')
+;;Nueva publicacion o foro ('new post' o 'new board)
+;;Leer una publicacion
+;;El siguiente ID de la publicacion es
+;;Responder a la publicacion
+;;Debe escribir 'new post' o 'new board'
+;;Debe escribir 'list post' o 'list board'
+;;Tema del foro?
+;;Asunto del mensaje?
+;;Atajo del foro?
+;;Lista de usuarios actualmente en linea
+;;Mostrar mi historial de comandos
+;;Supongo que querias decir
+;;Ningun foro coincide con ese accesso directo
+;;Querias decir:
+;;mando
+;;Cambiado a foro
+;;Debe seleccionar un foro para publicar una publicacion (use 'list board' y 'go <board>')
+;;Debe seleccionar un foro para poder publicar mensajes (use 'list board' y 'go <board>')
+;;Presione 'Q' para salir; 'N' para la pagina siguiente:
+;;Debe proporcionar un ID de correo valido
+;;Tema:
+;;Autor:
+;;Presione 'R' para responder; 'Q' para salir:
+;;Requiere la aprobacion del moderador para los nuevos mensajes? (Y/N)
+;;Imponga la aprobacion del moderador para los nuevos mensajes en el foro actual (debe ser el moderador para hacer esto)
+;;Eliminar el requisito de aprobacion del moderador para los nuevos mensajes en el foro actual (debe ser el moderador para hacer esto)
+;;Procesar mensajes en espera de moderacion
+;;Eliminar mensaje
+;;Debe seleccionar un foro para hacer cumplier la moderacion (use 'list board' y 'go <board>')
+;;Debe seleccionar un foro para eliminar la aplicacion de moderacion (use 'list board' y 'go <board>')
+;;Usted debe ser el moderador del foro para hacer esto.
+;;Asignar el privilegio moderador en el foro actual a otro usuario
+;;Debe proporcionar una cuenta de usuario valida
+;;Debe seleccionar un foro para asignar privilegios de moderador (use 'list board' y 'go <board>')
+;;Debe seleccionar un foro para procesar mensajes en espera de moderacion (use 'list board' y 'go <board>')
+;;Este foro no impone la moderacion. Nada que procesar.
+;;Presione 'A' para aprobar el mensaje, 'R' para rechazar el mensaje, o 'P' para posponer el mensaje:
+;;Mensaje aprobado.
+;;Mensaje rechazado.
+;;Mensaje pospuesto.
+;;aprobacion del moderador necesaria para cada mensaje
+;;Tu publicacion se ha enviado al moderador del foro para su aprobacion.
+;;Escribir un mensaje privado a otro usuario
+;;Debe ser el autor del mensaje o el moderador del foro para eliminar un mensaje.
+;;Mensaje burrito
 MSGSfr
 ;;DISCUSS v0.01
 ;; Copyright (C) 2017 John P. Willis
@@ -187,6 +247,33 @@ MSGSfr
 ;;Erreur: le compte existe deja
 ;;Erreur: nom de l'uitilsateur invalide
 ;;Erreur: no pouvait pas acquerir un verrou de base de donnees
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
+;;
 ;;
 ;;
 ;;

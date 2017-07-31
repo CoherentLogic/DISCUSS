@@ -142,6 +142,8 @@ LIST I PARL=1 W $$MSG(37),! Q
  I (PAR(2)'="post")&(PAR(2)'="board") W $$MSG(37),! Q
  I PAR(2)="post" D LMESG Q
  I PAR(2)="board" D LBOARD Q 
+VIEWCNT(B,M) Q:'$D(^MESG("M",B,M,"READ")) 0 N VC,S S VC=0,S="" F  S S=$O(^MESG("M",B,M,"READ",S)) Q:S=""  S VC=VC+1
+ Q VC
 ;; ^MESG("M",board,mesg id,"SUBJECT")
 ;;                        ,"USER")=USER
 ;;                        ,"TIME")=horolog
@@ -150,15 +152,15 @@ LIST I PARL=1 W $$MSG(37),! Q
 ;; AUG 24 2017 01:00AM
 LMESG N ID,WC S ID="",WC=0,ENF=0 I BOARD="NONE" W $$MSG(49),! Q
  S:$D(^DISCUSS("BOARDS",BOARD,"MOD","ENFORCED")) ENF=1
- W "ID",?12,"DATE",?35,"USER",?45,"SUBJECT",!
- W "--",?12,"----",?35,"----",?45,"-------",!
+ W "ID",?12,"DATE",?35,"USER",?45,"VIEWS",?52,"SUBJECT",!
+ W "--",?12,"----",?35,"----",?45,"-----",?52,"-------",!
  N S,U,H,R
  F  S ID=$O(^MESG("M",BOARD,ID)) Q:ID=""  D
  . S S=^MESG("M",BOARD,ID,"SUBJECT")
  . S U=^MESG("M",BOARD,ID,"USER")
  . S H=$ZD(^MESG("M",BOARD,ID,"TIME"),DF)
  . S READ="  " S:$D(^MESG("M",BOARD,ID,"READ",USER)) READ="R "
- . I (ENF=0)!($D(^MESG("M",BOARD,ID,"APPROVED"))) W READ,ID,?12,H,?35,U,?45,S,!
+ . I (ENF=0)!($D(^MESG("M",BOARD,ID,"APPROVED"))) W READ,ID,?12,H,?35,U,?45,$$VIEWCNT(BOARD,ID),?52,S,!
  . I WC>23 S WC=0 W $$MSG(50)," " R R#1 Q:$$UCASE(R)="Q"
  Q
 MOD I BOARD="NONE" W $$MSG(66),! Q 
@@ -187,6 +189,9 @@ MOD I BOARD="NONE" W $$MSG(66),! Q
 LBOARD W $J("ID",15),$J("MODERATOR",15),$J("BOARD NAME",60),! S SC="" F  S SC=$O(^DISCUSS("BOARDS",SC)) Q:SC=""  S NB=^DISCUSS("BOARDS",SC,"NAME"),MOD=^("MOD") W $J(SC,15),$J(MOD,15),$J(NB,60) W:$D(^DISCUSS("BOARDS",SC,"MOD","ENFORCED")) "*" W !
  W !,"* = ",$$MSG(72),!
  Q
+DELETE I (PARL<2)!('$D(^MESG("M",BOARD,$G(PAR(2))))) W $$MSG(51),! Q
+ S ID=PARL(2),AUTH=^MESG("M",BOARD,ID,"USER"),MOD=^DISCUSS("BOARDS",BOARD,"MOD") I (USER'=AUTH)&(USER'=MOD) W $$MSG(75),! Q
+ S POSTFILE="/home/discuss/DISCUSS/boards/"_BOARD_"/posts/"_ID_".DMS" K ^MESG("M",BOARD,ID) ZSY "rm "_POSTFILE W $$MSG(79),! Q
 READ I (PARL<2)!('$D(^MESG("M",BOARD,$G(PAR(2))))) W $$MSG(51),! Q
  I ($D(^DISCUSS("BOARDS",BOARD,"MOD","ENFORCED")))&('$D(^MESG("M",BOARD,PAR(2),"APPROVED"))) W $$MSG(51),! Q
  S I=PAR(2) M M=^MESG("M",BOARD,I) W $$MSG(52),?12,M("SUBJECT"),!,$$MSG(53),?12,M("USER"),!
