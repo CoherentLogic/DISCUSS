@@ -45,7 +45,7 @@ SLANG(L) S LANG=L D DEFMENUS I USER'="guest"  D USERMNU
  W "USER = ",USER," LANG = ",LANG,! Q
 GUESTMNU K ACT M ACT=UA Q
 USERMNU K ACT M ACT=LA Q
-INIT W !,$$MSG(1),!,$$MSG(2),!,$$MSG(3),!,! 
+INIT W !,$$MSG(1) H 0.2 W !,!,$$MSG(2) H 0.2 W !,$$MSG(3) H 0.2 W ! H 0.2 W ! 
  W $$MSG(34)," ",^DISCUSS("CONF","ID"),!,$$MSG(19),!,!
  G MAIN
 MAIN W ! D CHATTER K PAR S IN="",I="" W "B:",BOARD,"/P:",MSGID," [",USER,"]> " R IN W ! S PARL=$L(IN," ") F I=1:1:PARL S PAR(I)=$P(IN," ",I) 
@@ -200,13 +200,13 @@ READ I (PARL<2)!('$D(^MESG("M",BOARD,$G(PAR(2))))) W $$MSG(51),! Q
  W $$MSG(54)," " R R#1 W ! I $$UCASE(R)="R" S PAR(2)=I D REPLY Q
  Q
 GO 
- N TB S TB=$$UCASE(PAR(2)) 
+ Q:PARL<2  N TB S TB=$$UCASE(PAR(2)) 
  I $D(^DISCUSS("BOARDS",TB)) S BOARD=TB D WELCOME(TB) Q
  N B,PROP,L S B="",PROP=1,L=$L(TB)
  F  S B=$O(^DISCUSS("BOARDS",B)) Q:B=""  D
  . I $E(B,1,L)=TB S PROP(B,"NAME")=^DISCUSS("BOARDS",B,"NAME"),PROP=PROP+1
- . I B[TB S PROP(B,"NAME")=^DISCUSS("BOARDS",B,"NAME")
- . I $$UCASE(^DISCUSS("BOARDS",B,"NAME"))[TB S PROP(B,"NAME")=^DISCUSS("BOARDS",B,"NAME") 
+ . ;;I B[TB S PROP(B,"NAME")=^DISCUSS("BOARDS",B,"NAME")
+ . ;;I $$UCASE(^DISCUSS("BOARDS",B,"NAME"))[TB S PROP(B,"NAME")=^DISCUSS("BOARDS",B,"NAME") 
  S PROP=PROP-1,B=""
  I PROP=1 S B=$O(PROP(B)),BOARD=B W $$MSG(43)," ",B," (",PROP(B,"NAME"),")",! D WELCOME(B) Q
  I PROP<1 W $$MSG(44),! Q
@@ -218,7 +218,7 @@ GO
 WELCOME(B) W $$MSG(47)," '",^DISCUSS("BOARDS",B,"NAME"),"'",! S ^USERS(USER,"BOARD")=B
  ZSYSTEM "cat /home/discuss/DISCUSS/boards/"_B_"/.message 2>/dev/null" Q
 WHO W "USER",?18,"NAME",?40,"CURRENT BOARD",! 
- S U="" F  S U=$O(^SESS(U)) Q:U=""  W U,?18,^USERS(U,"NAME"),?40,^USERS(U,"BOARD"),!
+ S U="" F  S U=$O(^SESS(U)) Q:U=""  W U,?18,^USERS(U,"NAME"),?40,$G(^USERS(U,"BOARD")),!
  Q
 UCASE(I) Q $TR(I,"abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 LCASE(I) Q $TR(I,"ABCDEFGHIJKLMNOPQRSTUVWXYZ","abcdefghijklmnopqrstuvwxyz")

@@ -1,9 +1,9 @@
 DISCMSGS ;;English:en,Spanish:sp,Italian:it,French:fr
  Q
 MSGSen
-;;DISCUSS v0.01
-;; Copyright (C) 2017 John P. Willis
-;; All Rights Reserved.
+;; < < < < < C H I V A N E T   I N T E R N E T W O R K   S E R V I C E S  > > > > >
+;;                    DISCUSS: The On-Line Discussion Platform
+;;        Version 0.02-A (jpw@chivanet.org) Copyright (C) 2017 John Willis 
 ;;Please enter your username: 
 ;;Please enter your password: 
 ;;Discussion groups:
